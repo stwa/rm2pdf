@@ -54,7 +54,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -65,7 +65,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 
@@ -336,18 +336,6 @@ fttextpath = ["freetype-py (>=2.3.0,<2.4)"]
 rlpycairo = ["rlPyCairo (>=0.1.0)"]
 
 [[package]]
-name = "rmc"
-version = "0.1.0"
-description = "Convert to/from v6 .rm files from the reMarkable tablet"
-category = "main"
-optional = false
-python-versions = ">=3.10,<4.0"
-
-[package.dependencies]
-click = ">=8.0,<9.0"
-rmscene = ">=0.1.0,<0.2.0"
-
-[[package]]
 name = "rmscene"
 version = "0.1.0"
 description = "Read v6 .rm files from the reMarkable tablet"
@@ -435,7 +423,7 @@ python-versions = ">=3.6,<4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "407892cf28bb454a3ec2fb2c3dc319a8f5454c4666f7ba6dd32fd8f81584e0b6"
+content-hash = "b743901858dffab003c5f12e437299d8fb64143e4064ca18da277b4707db46b8"
 
 [metadata.files]
 astroid = [
@@ -855,10 +843,6 @@ reportlab = [
     {file = "reportlab-3.6.12-cp39-cp39-win32.whl", hash = "sha256:93e229519d046491b798f2c12dbbf2f3e237e89589aa5cbb5e1d8c1a978816db"},
     {file = "reportlab-3.6.12-cp39-cp39-win_amd64.whl", hash = "sha256:498b4ec7e73426de64c6bf6ec03c5b3f10dedf5db8a9e13fdf195f95a3d065aa"},
     {file = "reportlab-3.6.12.tar.gz", hash = "sha256:b13cebf4e397bba14542bcd023338b6ff2c151a3a12aabca89eecbf972cb361a"},
-]
-rmc = [
-    {file = "rmc-0.1.0-py3-none-any.whl", hash = "sha256:1285edc8c8261986cd54d532ce67455b0d43492767a15e4b5a879e7aba0428f0"},
-    {file = "rmc-0.1.0.tar.gz", hash = "sha256:89e9078be56eb2f0de8d424528aa3994ec5fd42566ad7bb87ebed141123373bc"},
 ]
 rmscene = [
     {file = "rmscene-0.1.0-py3-none-any.whl", hash = "sha256:e839107e3ee3fafe952038acc0effab6eb2fbc4120ca6a6194ce8953fdfbd8d7"},

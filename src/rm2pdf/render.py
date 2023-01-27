@@ -1,17 +1,17 @@
 from __future__ import annotations
 
 import json
-import math
 from itertools import pairwise
 from pathlib import Path
 from typing import Any, NamedTuple
 
 from reportlab.graphics import renderPDF
 from reportlab.pdfgen.canvas import Canvas
-from rmc.exporters.writing_tools import Pen
 from rmscene import Block, RootTextBlock, SceneLineItemBlock, read_blocks
 from svglib.svglib import svg2rlg
 from xdg import xdg_data_home
+
+from rm2pdf.pen import Pen
 
 DISPLAY_WIDTH = 1404
 DISPLAY_HEIGHT = 1872
@@ -136,21 +136,18 @@ def _draw_scene_line_item(
             point2.direction,
             point2.width,
             point2.pressure,
-            point1.width,
         )
         segment_width = pen.get_segment_width(
             point2.speed,
             point2.direction,
             point2.width,
             point2.pressure,
-            point1.width,
         )
         segment_opacity = pen.get_segment_opacity(
             point2.speed,
             point2.direction,
             point2.width,
             point2.pressure,
-            point1.width,
         )
 
         canvas.saveState()
