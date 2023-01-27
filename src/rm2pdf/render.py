@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from itertools import pairwise
 from typing import TYPE_CHECKING, Any, NamedTuple
 
@@ -27,6 +28,7 @@ PDF_HEIGHT = DISPLAY_HEIGHT * PDF_PT_PER_PX
 
 TEMPLATE_PATH = xdg_data_home().joinpath("rmrl", "templates")
 
+_log = logging.getLogger(__name__)
 
 class Page(NamedTuple):
     id: str  # noqa: A003
@@ -112,9 +114,7 @@ def _render_page(page: Page, canvas: Canvas) -> None:
         elif isinstance(block, RootTextBlock):
             _draw_root_text(page, block, canvas)
         else:
-            print(  # noqa: T201
-                f"warning: not converting block: {block.__class__}"
-            )
+            _log.warning("not converting block: %s", block.__class__)
     canvas.restoreState()
     canvas.showPage()
 
@@ -173,4 +173,4 @@ def _draw_scene_line_item(
 def _draw_root_text(
     page: Page, block: RootTextBlock, canvas: Canvas  # noqa: ARG001
 ) -> None:
-    print("text")  # noqa: T201
+    _log.debug("text")
