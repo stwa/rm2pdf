@@ -124,6 +124,7 @@ def _draw_scene_line_item(
     page: Page, block: SceneLineItemBlock, canvas: Canvas
 ) -> None:
     if block.value is None:
+        _log.debug("Ignoring empty block: %s", block.item_id)
         return
 
     pen = Pen.create(
