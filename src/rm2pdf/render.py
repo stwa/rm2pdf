@@ -29,7 +29,7 @@ TEMPLATE_PATH = xdg_data_home().joinpath("rmrl", "templates")
 
 
 class Page(NamedTuple):
-    id: str
+    id: str  # noqa: A003
     blocks: list[Block]
     dimensions: PageDimensions
     template: str | None
@@ -114,7 +114,9 @@ def _render_page(page: Page, canvas: Canvas) -> None:
         elif isinstance(block, RootTextBlock):
             _draw_root_text(page, block, canvas)
         else:
-            print(f"warning: not converting block: {block.__class__}")
+            print(  # noqa: T201
+                f"warning: not converting block: {block.__class__}"
+            )
     canvas.restoreState()
     canvas.showPage()
 
@@ -170,5 +172,7 @@ def _draw_scene_line_item(
         canvas.restoreState()
 
 
-def _draw_root_text(page: Page, block: RootTextBlock, canvas: Canvas) -> None:
-    print("text")
+def _draw_root_text(
+    page: Page, block: RootTextBlock, canvas: Canvas  # noqa: ARG001
+) -> None:
+    print("text")  # noqa: T201
