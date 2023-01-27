@@ -8,7 +8,7 @@ from typing import Any, NamedTuple
 from reportlab.graphics import renderPDF
 from reportlab.pdfgen.canvas import Canvas
 from rmscene import Block, RootTextBlock, SceneLineItemBlock, read_blocks
-from svglib.svglib import svg2rlg
+from svglib.svglib import Drawing, svg2rlg
 from xdg import xdg_data_home
 
 from rm2pdf.pen import Pen
@@ -93,6 +93,9 @@ def _get_page_dimensions(blocks: list[Block]) -> PageDimensions:
 def _render_template(template_path: Path, canvas: Canvas) -> None:
     if template_path.exists():
         background = svg2rlg(template_path)
+
+        assert isinstance(background, Drawing)
+
         background.scale(
             PDF_WIDTH / background.width, PDF_WIDTH / background.width
         )
