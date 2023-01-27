@@ -8,6 +8,12 @@ packages = [{include = "rm2pdf", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+rmscene = "^0.1.0"
+pdfrw = "^0.4"
+reportlab = "^3.6.12"
+rmc = "^0.1.0"
+svglib = "^1.5.1"
+xdg = "^5.1.1"
 
 
 [tool.poetry.group.dev.dependencies]
