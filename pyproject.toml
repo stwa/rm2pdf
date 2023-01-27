@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Stefan Wagner <stw@bit-strickerei.de>"]
 readme = "README.md"
-packages = [{include = "rm2pdf", from = "src"}]
+packages = [{ include = "rm2pdf", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
