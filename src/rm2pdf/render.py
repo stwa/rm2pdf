@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import json
 from itertools import pairwise
-from pathlib import Path
-from typing import Any, NamedTuple
+from typing import TYPE_CHECKING, Any, NamedTuple
 
 from reportlab.graphics import renderPDF
 from reportlab.pdfgen.canvas import Canvas
@@ -12,6 +11,9 @@ from svglib.svglib import Drawing, svg2rlg
 from xdg import xdg_data_home
 
 from rm2pdf.pen import Pen
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 DISPLAY_WIDTH = 1404
 DISPLAY_HEIGHT = 1872
