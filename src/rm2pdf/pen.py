@@ -80,10 +80,6 @@ class Pen:
             21: Caligraphy,
         }
         pen_class = pens[pen_id]
-
-        if pen_class is Highlighter:
-            width = 15.0
-
         return pen_class(width, RemarkableColorIndex(color_id))
 
 
@@ -217,7 +213,7 @@ class Highlighter(Pen):
     ) -> None:
         super().__init__(base_width, base_color_id)
         self.stroke_linecap = "square"
-        self.base_width = self.base_width * 1.8
+        self.base_width = 27.0
         self.base_opacity = 0.2
         self.name = "Highlighter"
 
