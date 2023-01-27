@@ -81,7 +81,7 @@ def _get_page_blocks(page_path: Path) -> list[Block]:
         return list(read_blocks(infile))
 
 
-def _get_page_dimensions(blocks: list[Block]) -> PageDimensions:
+def _get_page_dimensions(blocks: list[Block]) -> PageDimensions:  # noqa: ARG001
     width = DISPLAY_WIDTH
     height = DISPLAY_HEIGHT
     xpos_delta = DISPLAY_DELTA_X
