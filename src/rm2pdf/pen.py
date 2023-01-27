@@ -23,9 +23,13 @@ remarkable_palette = {
     8: (125, 125, 125),
 }
 
+Degree = float
+Radian = float
+
+# pylint: disable=unused-argument
 
 class Pen:
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         self.base_width = base_width
         self.base_color = remarkable_palette[base_color_id]
         self.segment_length = 1000
@@ -37,18 +41,38 @@ class Pen:
         self.stroke_color = base_color_id
 
     @classmethod
-    def direction_to_tilt(cls, direction: float) -> float:
+    def direction_to_tilt(cls, direction: Degree) -> Radian:
         return math.radians(direction)
 
-    def get_segment_width(self, speed, direction, width, pressure) -> float:
+    def get_segment_width(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         return self.base_width
 
     def get_segment_color(
-        self, speed, direction, width, pressure
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
     ) -> tuple[float, float, float]:
-        return tuple(map(lambda v: v / 255, self.base_color))
+        return (
+            self.base_color[0] / 255,
+            self.base_color[1] / 255,
+            self.base_color[2] / 255,
+        )
 
-    def get_segment_opacity(self, speed, direction, width, pressure):
+    def get_segment_opacity(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         return self.base_opacity
 
     def cutoff(self, value: float) -> float:
@@ -84,53 +108,83 @@ class Pen:
 
 
 class Fineliner(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.base_width = base_width * 1.5
         self.name = "Fineliner"
 
 
 class Ballpoint(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 5
         self.name = "Ballpoint"
 
-    def get_segment_width(self, speed, direction, width, pressure):
+    def get_segment_width(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         return pressure / 255 + 0.175 * width - 0.125 * speed / 50
 
-    def get_segment_opacity(self, speed, direction, width, pressure):
+    def get_segment_opacity(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         intensity = (0.1 * -((speed / 4) / 35)) + (1.2 * pressure / 255) + 0.5
         return self.cutoff(intensity)
 
 
 class Marker(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 3
         self.name = "Marker"
 
-    def get_segment_width(self, speed, direction, width, pressure):
+    def get_segment_width(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         return 0.2 * width - 0.4 * self.direction_to_tilt(direction)
 
 
 class Pencil(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 2
         self.name = "Pencil"
 
-    def get_segment_width(self, speed, direction, width, pressure):
+    def get_segment_width(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         segment_width = 0.06 * self.base_width * width
         return min(segment_width, self.base_width * 10)
 
-    def get_segment_opacity(self, speed, direction, width, pressure):
+    def get_segment_opacity(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         segment_opacity = (0.1 * -((speed / 4) / 35)) + pressure / 255
         return self.cutoff(segment_opacity)
 
 
 class MechanicalPencil(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.base_width = self.base_width**2
         self.base_opacity = 0.7
@@ -138,24 +192,36 @@ class MechanicalPencil(Pen):
 
 
 class Brush(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 2
         self.stroke_linecap = "round"
         self.opacity = 1
         self.name = "Brush"
 
-    def get_segment_width(self, speed, direction, width, pressure):
+    def get_segment_width(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         segment_width = 0.1 * width * (1 + (pressure / 255))
         return segment_width
 
-    def get_segment_opacity(self, speed, direction, width, pressure):
+    def get_segment_opacity(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         intensity = ((pressure / 255) ** 1.5 - 0.2 * (speed / 50)) * 1.5
         return self.cutoff(intensity)
 
 
 class Highlighter(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.stroke_linecap = "square"
         self.base_width = self.base_width * 1.8
@@ -164,7 +230,7 @@ class Highlighter(Pen):
 
 
 class Eraser(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.stroke_linecap = "square"
         self.base_width = self.base_width * 2
@@ -172,7 +238,7 @@ class Eraser(Pen):
 
 
 class EraseArea(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.stroke_linecap = "square"
         self.base_opacity = 0
@@ -180,10 +246,16 @@ class EraseArea(Pen):
 
 
 class Caligraphy(Pen):
-    def __init__(self, base_width: float, base_color_id: int):
+    def __init__(self, base_width: float, base_color_id: int) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 2
         self.name = "Calligraphy"
 
-    def get_segment_width(self, speed, direction, width, pressure):
+    def get_segment_width(
+        self,
+        speed: float,
+        direction: Degree,
+        width: float,
+        pressure: float,
+    ) -> float:
         return 0.3 * width - 0.3 * self.direction_to_tilt(direction)
