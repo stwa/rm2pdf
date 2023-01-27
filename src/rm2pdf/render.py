@@ -120,10 +120,6 @@ def _render_page(page: Page, canvas: Canvas) -> None:
     canvas.showPage()
 
 
-def _get_linecap(linecap: str) -> int:
-    return ["butt", "round", "square"].index(linecap)
-
-
 def _draw_scene_line_item(
     page: Page, block: SceneLineItemBlock, canvas: Canvas
 ) -> None:
@@ -136,39 +132,13 @@ def _draw_scene_line_item(
         block.value.thickness_scale,
     )
 
-    for point1, point2 in pairwise(block.value.points):
-        segment_color = pen.get_segment_color(
-            point2.speed,
-            point2.direction,
-            point2.width,
-            point2.pressure,
+    for pair in pairwise(block.value.points):
+        pen.draw(
+            pair,
+            canvas,
+            page.dimensions.delta_x,
+            page.dimensions.delta_y,
         )
-        segment_width = pen.get_segment_width(
-            point2.speed,
-            point2.direction,
-            point2.width,
-            point2.pressure,
-        )
-        segment_opacity = pen.get_segment_opacity(
-            point2.speed,
-            point2.direction,
-            point2.width,
-            point2.pressure,
-        )
-
-        canvas.saveState()
-        canvas.setLineCap(_get_linecap(pen.stroke_linecap))
-        canvas.setLineJoin(1)
-        canvas.setStrokeColor(segment_color, max(segment_opacity, 0))
-        canvas.setLineWidth(segment_width)
-
-        canvas.line(
-            point1.x + page.dimensions.delta_x,
-            point1.y + page.dimensions.delta_y,
-            point2.x + page.dimensions.delta_x,
-            point2.y + page.dimensions.delta_y,
-        )
-        canvas.restoreState()
 
 
 def _draw_root_text(

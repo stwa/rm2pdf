@@ -1,13 +1,22 @@
 from __future__ import annotations
 
 import math
+from typing import Literal
+
+from reportlab.pdfgen.canvas import Canvas
+from rmscene import Point
 
 from rm2pdf.color import Color, RemarkableColorIndex
 
 Degree = float
 Radian = float
+Linecap = Literal["butt", "round", "square"]
 
 # pylint: disable=unused-argument
+
+
+def _get_linecap(linecap: Linecap) -> int:
+    return ["butt", "round", "square"].index(linecap)
 
 
 class Pen:
@@ -22,7 +31,7 @@ class Pen:
         self.base_opacity = 1.0
         self.name = "Basic Pen"
         # initial stroke values
-        self.stroke_linecap = "round"
+        self.stroke_linecap: Linecap = "round"
 
     @staticmethod
     def direction_to_tilt(direction: Degree) -> Radian:
@@ -81,6 +90,50 @@ class Pen:
         }
         pen_class = pens[pen_id]
         return pen_class(width, RemarkableColorIndex(color_id))
+
+    def draw(
+        self,
+        points: tuple[Point, Point],
+        canvas: Canvas,
+        delta_x: int,
+        delta_y: int,
+    ) -> None:
+        canvas.saveState()
+
+        point1, point2 = points
+
+        segment_color = self.get_segment_color(
+            point2.speed,
+            point2.direction,
+            point2.width,
+            point2.pressure,
+        )
+        segment_width = self.get_segment_width(
+            point2.speed,
+            point2.direction,
+            point2.width,
+            point2.pressure,
+        )
+        segment_opacity = self.get_segment_opacity(
+            point2.speed,
+            point2.direction,
+            point2.width,
+            point2.pressure,
+        )
+
+        canvas.setLineCap(_get_linecap(self.stroke_linecap))
+        canvas.setLineJoin(1)
+        canvas.setStrokeColor(segment_color, max(segment_opacity, 0))
+        canvas.setLineWidth(segment_width)
+
+        canvas.line(
+            point1.x + delta_x,
+            point1.y + delta_y,
+            point2.x + delta_x,
+            point2.y + delta_y,
+        )
+
+        canvas.restoreState()
 
 
 class Fineliner(Pen):
