@@ -2,26 +2,7 @@ from __future__ import annotations
 
 import math
 
-remarkable_palette = {
-    # BLACK = 0
-    0: (0, 0, 0),
-    # GRAY = 1
-    1: (125, 125, 125),
-    # WHITE = 2
-    2: (255, 255, 255),
-    # YELLOW = 3
-    3: (255, 255, 0),
-    # GREEN = 4
-    4: (0, 255, 0),
-    # PINK = 5
-    5: (255, 0, 255),
-    # BLUE = 6
-    6: (0, 0, 255),
-    # RED = 7
-    7: (255, 0, 0),
-    # GRAY_OVERLAP = 8
-    8: (125, 125, 125),
-}
+from rm2pdf.color import Color, RemarkableColorIndex
 
 Degree = float
 Radian = float
@@ -30,9 +11,13 @@ Radian = float
 
 
 class Pen:
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self,
+        base_width: float,
+        base_color_id: RemarkableColorIndex,
+    ) -> None:
         self.base_width = base_width
-        self.base_color = remarkable_palette[base_color_id]
+        self.base_color = Color.from_remarkable_color(base_color_id)
         self.segment_length = 1000
         self.base_opacity = 1.0
         self.name = "Basic Pen"
@@ -41,8 +26,8 @@ class Pen:
         self.stroke_width = base_width
         self.stroke_color = base_color_id
 
-    @classmethod
-    def direction_to_tilt(cls, direction: Degree) -> Radian:
+    @staticmethod
+    def direction_to_tilt(direction: Degree) -> Radian:
         return math.radians(direction)
 
     def get_segment_width(
@@ -61,11 +46,7 @@ class Pen:
         width: float,
         pressure: float,
     ) -> tuple[float, float, float]:
-        return (
-            self.base_color[0] / 255,
-            self.base_color[1] / 255,
-            self.base_color[2] / 255,
-        )
+        return self.base_color.normalize()
 
     def get_segment_opacity(
         self,
@@ -79,8 +60,8 @@ class Pen:
     def cutoff(self, value: float) -> float:
         return max(0, min(1, value))
 
-    @classmethod
-    def create(cls, pen_id: int, color_id: int, width: float) -> Pen:
+    @staticmethod
+    def create(pen_id: int, color_id: int, width: float) -> Pen:
         pens = {
             0: Brush,
             1: Pencil,
@@ -105,18 +86,22 @@ class Pen:
             width = 15.0
 
         pen_class: type[Pen] = pens[pen_id]
-        return pen_class(width, color_id)
+        return pen_class(width, RemarkableColorIndex(color_id))
 
 
 class Fineliner(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.base_width = base_width * 1.5
         self.name = "Fineliner"
 
 
 class Ballpoint(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 5
         self.name = "Ballpoint"
@@ -142,7 +127,9 @@ class Ballpoint(Pen):
 
 
 class Marker(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 3
         self.name = "Marker"
@@ -158,7 +145,9 @@ class Marker(Pen):
 
 
 class Pencil(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 2
         self.name = "Pencil"
@@ -185,7 +174,9 @@ class Pencil(Pen):
 
 
 class MechanicalPencil(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.base_width = self.base_width**2
         self.base_opacity = 0.7
@@ -193,7 +184,9 @@ class MechanicalPencil(Pen):
 
 
 class Brush(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 2
         self.stroke_linecap = "round"
@@ -221,7 +214,9 @@ class Brush(Pen):
 
 
 class Highlighter(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.stroke_linecap = "square"
         self.base_width = self.base_width * 1.8
@@ -230,7 +225,9 @@ class Highlighter(Pen):
 
 
 class Eraser(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.stroke_linecap = "square"
         self.base_width = self.base_width * 2
@@ -238,7 +235,9 @@ class Eraser(Pen):
 
 
 class EraseArea(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.stroke_linecap = "square"
         self.base_opacity = 0
@@ -246,7 +245,9 @@ class EraseArea(Pen):
 
 
 class Caligraphy(Pen):
-    def __init__(self, base_width: float, base_color_id: int) -> None:
+    def __init__(
+        self, base_width: float, base_color_id: RemarkableColorIndex
+    ) -> None:
         super().__init__(base_width, base_color_id)
         self.segment_length = 2
         self.name = "Calligraphy"
