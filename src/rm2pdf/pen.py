@@ -60,7 +60,7 @@ class Pen:
 
     @staticmethod
     def create(pen_id: int, color_id: int, width: float) -> Pen:
-        pens = {
+        pens: dict[int, type[Pen]] = {
             0: Brush,
             1: Pencil,
             2: Ballpoint,
@@ -79,11 +79,11 @@ class Pen:
             18: Highlighter,
             21: Caligraphy,
         }
+        pen_class = pens[pen_id]
 
-        if pen_id in [5, 18]:
+        if pen_class is Highlighter:
             width = 15.0
 
-        pen_class: type[Pen] = pens[pen_id]
         return pen_class(width, RemarkableColorIndex(color_id))
 
 
