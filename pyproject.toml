@@ -46,6 +46,9 @@ disable = [
 enable = ["useless-suppression"]
 good-names = "id"
 
+[tool.pylint.design]
+max-attributes = 10
+
 [tool.mypy]
 files = "src"
 
@@ -65,6 +68,10 @@ show_column_numbers = true
 pretty = true
 
 enable_error_code = ["ignore-without-code"]
+
+[[tool.mypy.overrides]]
+module = ["reportlab.*", "svglib.*"]
+ignore_missing_imports = true
 
 [tool.ruff]
 select = ["ALL"]
