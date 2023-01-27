@@ -44,9 +44,7 @@ class PageDimensions(NamedTuple):
 
 
 def render(content_path: Path, output_path: Path) -> None:
-    rm_path = content_path.parent.joinpath(
-        content_path.name.removesuffix(".content")
-    )
+    rm_path = content_path.with_suffix("")
     with content_path.open(encoding="utf-8") as content_file:
         data = json.load(content_file)
         pages = [
