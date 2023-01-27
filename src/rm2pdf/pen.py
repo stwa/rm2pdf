@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import math
-from typing import Literal
-
-from reportlab.pdfgen.canvas import Canvas
-from rmscene import Point
+from typing import TYPE_CHECKING, Literal
 
 from rm2pdf.color import Color, RemarkableColorIndex
+
+if TYPE_CHECKING:
+    from reportlab.pdfgen.canvas import Canvas
+    from rmscene import Point
+
 
 Degree = float
 Radian = float
