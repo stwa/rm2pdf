@@ -23,8 +23,6 @@ class Pen:
         self.name = "Basic Pen"
         # initial stroke values
         self.stroke_linecap = "round"
-        self.stroke_width = base_width
-        self.stroke_color = base_color_id
 
     @staticmethod
     def direction_to_tilt(direction: Degree) -> Radian:
