@@ -30,6 +30,7 @@ TEMPLATE_PATH = xdg_data_home().joinpath("rmrl", "templates")
 
 _log = logging.getLogger(__name__)
 
+
 class Page(NamedTuple):
     id: str  # noqa: A003
     blocks: list[Block]
@@ -129,7 +130,7 @@ def _draw_scene_line_item(
     if block.value is None:
         return
 
-    pen: Pen = Pen.create(
+    pen = Pen.create(
         block.value.tool.value,
         block.value.color.value,
         block.value.thickness_scale,
