@@ -1,3 +1,13 @@
 .coverage
 coverage.xml
 xunit-reports/
+
+*.content
+*.local
+*.metadata
+*.pagedata
+*.thumbnails
+*-metadata.json
+*.rm
+
+*.pdf
