@@ -28,6 +28,7 @@ Radian = float
 
 # pylint: disable=unused-argument
 
+
 class Pen:
     def __init__(self, base_width: float, base_color_id: int) -> None:
         self.base_width = base_width
@@ -206,8 +207,7 @@ class Brush(Pen):
         width: float,
         pressure: float,
     ) -> float:
-        segment_width = 0.1 * width * (1 + (pressure / 255))
-        return segment_width
+        return 0.1 * width * (1 + (pressure / 255))
 
     def get_segment_opacity(
         self,
