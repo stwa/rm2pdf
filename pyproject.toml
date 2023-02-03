@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rm2pdf"
-version = "0.1.0"
+version = "0.2.0a0"
 description = ""
 authors = ["Stefan Wagner <stw@bit-strickerei.de>"]
 readme = "README.md"
