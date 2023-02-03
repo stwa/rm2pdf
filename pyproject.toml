@@ -22,7 +22,7 @@ black = "^22.12.0"
 isort = "^5.11.4"
 pylint = "^2.15.10"
 mypy = "^0.991"
-ruff = "^0.0.236"
+ruff = "^0.0.240"
 
 [build-system]
 requires = ["poetry-core"]
