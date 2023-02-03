@@ -3,18 +3,16 @@ from __future__ import annotations
 import json
 import logging
 from itertools import pairwise
-from typing import TYPE_CHECKING, Any, NamedTuple
+from pathlib import Path
+from typing import Any, NamedTuple
 
 from reportlab.graphics import renderPDF
 from reportlab.pdfgen.canvas import Canvas
 from rmscene import Block, RootTextBlock, SceneLineItemBlock, read_blocks
 from svglib.svglib import Drawing, svg2rlg
-from xdg import xdg_data_home
+from xdg.BaseDirectory import xdg_data_home
 
 from rm2pdf.pen import Pen
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 DISPLAY_WIDTH = 1404
 DISPLAY_HEIGHT = 1872
@@ -26,7 +24,7 @@ PDF_PT_PER_PX = 72 / DISPLAY_DPI
 PDF_WIDTH = DISPLAY_WIDTH * PDF_PT_PER_PX
 PDF_HEIGHT = DISPLAY_HEIGHT * PDF_PT_PER_PX
 
-TEMPLATE_PATH = xdg_data_home().joinpath("rmrl", "templates")
+TEMPLATE_PATH = Path(xdg_data_home).joinpath("rmrl", "templates")
 
 _log = logging.getLogger(__name__)
 

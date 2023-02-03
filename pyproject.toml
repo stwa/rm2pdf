@@ -12,7 +12,7 @@ rmscene = "^0.1.0"
 pdfrw = "^0.4"
 reportlab = "^3.6.12"
 svglib = "^1.5.1"
-xdg = "^5.1.1"
+pyxdg = "^0.28"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -71,7 +71,7 @@ pretty = true
 enable_error_code = ["ignore-without-code"]
 
 [[tool.mypy.overrides]]
-module = ["reportlab.*", "svglib.*"]
+module = ["reportlab.*", "svglib.*", "xdg.*"]
 ignore_missing_imports = true
 
 [tool.ruff]
