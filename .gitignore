@@ -11,3 +11,5 @@ xunit-reports/
 *.rm
 
 *.pdf
+
+dist
