@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 
-from argparse import ArgumentParser
+from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 from pathlib import Path
 
 from rm2pdf.render import render
@@ -23,7 +23,10 @@ def _configure_logging(*, verbose: bool = False, quiet: bool = False) -> None:
 
 
 def run() -> None:
-    parser = ArgumentParser(description="Convert remarkable files to PDF")
+    parser = ArgumentParser(
+        description="Convert remarkable files to PDF",
+        formatter_class=ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "--output",
         type=str,
