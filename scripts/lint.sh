@@ -2,4 +2,4 @@
 
 set -eu
 
-pylint --fail-under 9 src
+ruff check . "$@"

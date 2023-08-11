@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pytest import raises
 
 from rm2pdf.color import Color, RemarkableColorIndex

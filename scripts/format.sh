@@ -1,17 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eu
 
-if [ "${1:-}" = "--check" ]; then
-    black_args="--check --diff"
-    isort_args="--check --diff --quiet"
+ruff_fix=("--fix")
+if [[ ${1-} == "--check" ]]; then
+    ruff_fix=("--diff")
+    black_options=("--check" "--diff")
 fi
 
 EXIT_CODE=0
 
-# shellcheck disable=2086
-black ${black_args:-} . || EXIT_CODE=1
-# shellcheck disable=2086
-isort ${isort_args:-} . || EXIT_CODE=1
+ruff --select I001,I002 "${ruff_fix[@]}" . || EXIT_CODE=1
+black . "${black_options[@]}" || EXIT_CODE=1
 
 exit "$EXIT_CODE"

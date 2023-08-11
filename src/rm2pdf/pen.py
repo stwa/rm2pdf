@@ -14,8 +14,6 @@ Degree = float
 Radian = float
 Linecap = Literal["butt", "round", "square"]
 
-# pylint: disable=unused-argument
-
 
 def _get_linecap(linecap: Linecap) -> int:
     return ["butt", "round", "square"].index(linecap)
