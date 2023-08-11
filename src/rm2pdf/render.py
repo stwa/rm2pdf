@@ -58,6 +58,11 @@ def render(content_path: Path, output_path: Path) -> None:
             for page_data in data.get("cPages", {}).get("pages", [])
         ]
 
+    if data["fileType"] == "pdf":
+        pdf = rm_path.with_suffix(".pdf")
+
+        assert pdf.exists(), f"PDF doesn't exist at {pdf}"
+
     canvas = Canvas(str(output_path), (PDF_WIDTH, PDF_HEIGHT))
     for page in pages:
         if page.template and page.template != "Blank":
