@@ -552,14 +552,17 @@ renderpm = ["rl-renderPM (>=4.0.3,<4.1)"]
 
 [[package]]
 name = "rmscene"
-version = "0.1.0"
+version = "0.4.0"
 description = "Read v6 .rm files from the reMarkable tablet"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "rmscene-0.1.0-py3-none-any.whl", hash = "sha256:e839107e3ee3fafe952038acc0effab6eb2fbc4120ca6a6194ce8953fdfbd8d7"},
-    {file = "rmscene-0.1.0.tar.gz", hash = "sha256:d6ae29d6b1e00e996e86d095786f1fd6bf857be7016bb81ae738833a175b24fb"},
+    {file = "rmscene-0.4.0-py3-none-any.whl", hash = "sha256:d821de053939e0d20eeb99315ea05b5a547e6780f088a6f14b82ea4444c97692"},
+    {file = "rmscene-0.4.0.tar.gz", hash = "sha256:ec37150a2c0d601c8f3f4e694d06872a5bbb413c6646e806ecdf4b28ba7ca10f"},
 ]
+
+[package.dependencies]
+packaging = ">=23.0,<24.0"
 
 [[package]]
 name = "ruff"
@@ -657,4 +660,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ef4b370fb15fe5d1ab289a4ad4aa449800c9d75d66fb5996739f0e051fd9e9d4"
+content-hash = "fa970a66036721a7efbf9d888486954b4daaed5773b0bed24c5f5d5fa601f284"

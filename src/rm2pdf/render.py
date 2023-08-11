@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+
 from itertools import pairwise
 from pathlib import Path
 from typing import Any, NamedTuple
@@ -13,6 +14,7 @@ from svglib.svglib import Drawing, svg2rlg
 from xdg.BaseDirectory import xdg_data_home
 
 from rm2pdf.pen import Pen
+
 
 DISPLAY_WIDTH = 1404
 DISPLAY_HEIGHT = 1872
@@ -121,17 +123,21 @@ def _render_page(page: Page, canvas: Canvas) -> None:
 def _draw_scene_line_item(
     page: Page, block: SceneLineItemBlock, canvas: Canvas
 ) -> None:
-    if block.value is None:
-        _log.debug("Ignoring empty block: %s", block.item_id)
+    if block.item.value is None:
+        _log.warning("Ignoring empty block: %s", block.item.item_id)
         return
 
-    pen = Pen.create(
-        block.value.tool.value,
-        block.value.color.value,
-        block.value.thickness_scale,
+    _log.debug(
+        "rendering block: %s | attr?: %s", block.item, hasattr(block, "value")
     )
 
-    for pair in pairwise(block.value.points):
+    pen = Pen.create(
+        block.item.value.tool.value,
+        block.item.value.color.value,
+        block.item.value.thickness_scale,
+    )
+
+    for pair in pairwise(block.item.value.points):
         pen.draw(
             pair,
             canvas,
