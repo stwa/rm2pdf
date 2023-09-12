@@ -4,16 +4,19 @@ import json
 import logging
 
 from itertools import pairwise
-from pathlib import Path
-from typing import Any, NamedTuple
+from typing import TYPE_CHECKING, Any, Literal, NamedTuple
 
 from reportlab.graphics import renderPDF
 from reportlab.pdfgen.canvas import Canvas
 from rmscene import Block, RootTextBlock, SceneLineItemBlock, read_blocks
 from svglib.svglib import Drawing, svg2rlg
-from xdg.BaseDirectory import xdg_data_home
 
 from rm2pdf.pen import Pen
+from rm2pdf.templates import get_template
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 DISPLAY_WIDTH = 1404
@@ -26,9 +29,9 @@ PDF_PT_PER_PX = 72 / DISPLAY_DPI
 PDF_WIDTH = DISPLAY_WIDTH * PDF_PT_PER_PX
 PDF_HEIGHT = DISPLAY_HEIGHT * PDF_PT_PER_PX
 
-TEMPLATE_PATH = Path(xdg_data_home).joinpath("rmrl", "templates")
-
 _log = logging.getLogger(__name__)
+
+FileType = Literal["pdf", "notebook"]
 
 
 class Page(NamedTuple):
@@ -55,11 +58,15 @@ def render(content_path: Path, output_path: Path) -> None:
             for page_data in data.get("cPages", {}).get("pages", [])
         ]
 
+    if data["fileType"] == "pdf":
+        pdf = rm_path.with_suffix(".pdf")
+
+        assert pdf.exists(), f"PDF doesn't exist at {pdf}"
+
     canvas = Canvas(str(output_path), (PDF_WIDTH, PDF_HEIGHT))
     for page in pages:
         if page.template and page.template != "Blank":
-            template_path = TEMPLATE_PATH.joinpath(f"{page.template}.svg")
-            _render_template(template_path, canvas)
+            _render_template(get_template(page.template), canvas)
         _render_page(page, canvas)
     canvas.save()
 
