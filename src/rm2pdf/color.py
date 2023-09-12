@@ -3,6 +3,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Final, NamedTuple
 
+
 MAX_COLOR_VALUE: Final = 255
 
 

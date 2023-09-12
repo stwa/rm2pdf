@@ -1,20 +1,20 @@
 from __future__ import annotations
 
 import math
+
 from typing import TYPE_CHECKING, Literal
 
 from rm2pdf.color import Color, RemarkableColorIndex
 
+
 if TYPE_CHECKING:
     from reportlab.pdfgen.canvas import Canvas
-    from rmscene import Point
+    from rmscene.scene_items import Point
 
 
 Degree = float
 Radian = float
 Linecap = Literal["butt", "round", "square"]
-
-# pylint: disable=unused-argument
 
 
 def _get_linecap(linecap: Linecap) -> int:
